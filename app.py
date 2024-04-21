@@ -1,5 +1,5 @@
 import streamlit as st
-import pandas as pd
+from streamlit_extras.stylable_container import stylable_container
 
 left_column, mid, right_column = st.columns([2,2,2])
 
@@ -25,7 +25,22 @@ def main():
     num_1 = st.number_input("Enter the first number:")
     num_2 = st.number_input("Enter the second number:")
     num_3 = st.number_input("Enter the third number:")
-    submitted = st.form_submit_button("Submit")
+    with stylable_container(
+      key="submit_button",
+      css_styles="""
+      button {
+        background-color: #781f19;
+        color: #d6a64f;
+        border-color: #d6a64f;
+      }
+      button:hover, button:active {
+        background-color: #d6a64f !important;
+        border-color: #781f19 !important; 
+        color: #781f19 !important;
+      }
+      """
+    ):
+      submitted = st.form_submit_button("Submit")
     
   if submitted:
     st.session_state.confirmation = False
@@ -37,7 +52,16 @@ def main():
     """)
     st.warning(""" :triangular_flag_on_post:
     Please confirm if you want to proceed :triangular_flag_on_post:""")
-    st.button("Confirm", on_click=click_button)
+    with stylable_container(
+      key="submit_button",
+      css_styles="""
+      button {
+        background-color: #781f19;
+        color: #d6a64f;
+        border-color: #d6a64f;
+      }
+      """):
+      st.button("Confirm", on_click=click_button)
   
   if st.session_state.confirmation:
     st.balloons()
